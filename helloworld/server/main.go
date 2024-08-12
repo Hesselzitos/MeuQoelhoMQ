@@ -25,10 +25,10 @@ import (
 	"fmt"
 	"log"
 	"net"
-
-	pb "src/main/go/proto"
+	"time"
 
 	"google.golang.org/grpc"
+	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
 var (
@@ -43,7 +43,9 @@ type server struct {
 // SayHello implements helloworld.GreeterServer
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	log.Printf("Received: %v", in.GetName())
-	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+	dt := time.Now()
+	fmt.Println("Current date and time is: ", dt.String())
+	return &pb.HelloReply{Message: "Hello, its " + in.GetName() + "there? Its " + dt.Local().Format("01-02-2006 15:04:05") + "here"}, nil
 }
 
 func main() {

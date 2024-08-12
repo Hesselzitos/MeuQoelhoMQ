@@ -1,4 +1,4 @@
-// Copyright 2015 The gRPC Authors
+// Copyright 2015 gRPC authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,14 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 syntax = "proto3";
 
+option go_package = "google.golang.org/grpc/examples/helloworld/helloworld";
 option java_multiple_files = true;
-option java_package = "io.grpc.examples.helloworld";
+option java_package = "com.CSTB.message";
 option java_outer_classname = "HelloWorldProto";
-option go_package = "go.server";
 
-package helloworld;
+package message;
 
 // The greeting service definition.
 service Greeter {

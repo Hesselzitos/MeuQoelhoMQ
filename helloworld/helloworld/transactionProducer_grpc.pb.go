@@ -1,4 +1,4 @@
-// Copyright 2015 The gRPC Authors
+// Copyright 2015 gRPC authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.27.2
-// source: src/main/go/proto/producerTransaction.proto
+// source: helloworld/transactionProducer.proto
 
-package go_server
+package helloworld
 
 import (
 	context "context"
@@ -33,7 +33,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Greeter_SayHello_FullMethodName = "/helloworld.Greeter/SayHello"
+	Greeter_SayHello_FullMethodName = "/message.Greeter/SayHello"
 )
 
 // GreeterClient is the client API for Greeter service.
@@ -128,7 +128,7 @@ func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(in
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Greeter_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "helloworld.Greeter",
+	ServiceName: "message.Greeter",
 	HandlerType: (*GreeterServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -137,5 +137,5 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "src/main/go/proto/producerTransaction.proto",
+	Metadata: "helloworld/transactionProducer.proto",
 }
