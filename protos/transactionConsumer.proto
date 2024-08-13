@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.CSTB.message";
+option java_outer_classname = "HelloWorldProto";
+option objc_class_prefix = "HLW";
+
+package message;
+
+service Consumer {
+  rpc Subscribe (AskForSubscribe) returns (ConsumerMessage) {}
+  rpc ListQuees () returns (ListQueesReply) {}
+}
+
+message AskForSubscribe {
+  string channel = 1;
+}
+
+message ConsumerMessage {
+  string channel = 1;
+  string message = 2;
+}
+
+message ListQueesReply {
+  string listQuees = 1;
+}
