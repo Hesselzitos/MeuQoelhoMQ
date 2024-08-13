@@ -13,12 +13,14 @@ import transactionProducer_pb2_grpc
 class MeuCoelhoMQ(transactionProducer_pb2_grpc.GreeterServicer):
     directoryDataMessages = 'dataMessages/'
     queesRunning = {}
+    subscribedQuee = {}
 
     def SendMessage(self, request, context):
         return transactionProducer_pb2.MessageReply(ack="ok")
     
     def CountMessages(self, fileName):
         line_count=0
+
         with open(fileName,'r') as file:
             for line in file:
                 line_count+=1
@@ -35,14 +37,31 @@ class MeuCoelhoMQ(transactionProducer_pb2_grpc.GreeterServicer):
         return files
     
     def SaveMessage(self, channel ,message):
-        file = open(channel+".txt", "a")
-        file.write(message)
-        file.close
-        if self.queesRunning[channel]==None:
-            self.queesRunning[channel]=self.CountMessages(channel)
-    #def KillQuee():
+        try:
+            file = open(self.directoryDataMessages+channel+".txt", "a")
+            if channel not in self.queesRunning:
+                file.write(message)
+                self.queesRunning[channel]=1
+                print("New quee added: "+channel)
+            else:
+                file.write("\n"+message)
+        finally:
+            file.close()
 
-    #def SubscribeQuee():
+    def KillQuee(self, channel):
+        print("Trying to kill "+channel)
+        try:
+            os.remove(self.directoryDataMessages+channel+".txt")
+            del self.queesRunning[channel]
+            print(channel+" was killed.")
+        except Exception as e:
+            print(f'Fail to kill the quee {channel}, an error occurred: {e}')
+
+    def SubscribeQuee(self,channel,subscribe):
+        if channel in self.queesRunning:
+            self.subscribedQuee[channel]=subscribe
+
+
         
 def serve():
     port = "50051"
