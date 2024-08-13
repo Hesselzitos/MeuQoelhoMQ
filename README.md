@@ -19,3 +19,7 @@ uma sequência de bytes de tamanho arbitrário.
 a execução com as mensagens das filas intactas.
 
 Mais detalhes em [enunciado projeto 1](http://professor.ufabc.edu.br/~e.francesquini/2024.q2.sd/#org93aca30).
+
+## Tests
+- cd python/src
+- python ../test/MeuCoelhoMQTest.py 
