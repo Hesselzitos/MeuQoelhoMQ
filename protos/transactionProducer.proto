@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.CSTB.message";
+option java_outer_classname = "HelloWorldProto";
+option objc_class_prefix = "HLW";
+
+package message;
+
+service Greeter {
+  rpc SendMessage (SendMessageRequest) returns (MessageReply) {}
+}
+
+message SendMessageRequest {
+  string name = 1;
+}
+
+message MessageReply {
+  string message = 1;
+}
