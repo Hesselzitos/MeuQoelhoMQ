@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19transactionProducer.proto\x12\x07message\"\"\n\x12SendMessageRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1f\n\x0cMessageReply\x12\x0f\n\x07message\x18\x01 \x01(\t2N\n\x07Greeter\x12\x43\n\x0bSendMessage\x12\x1b.message.SendMessageRequest\x1a\x15.message.MessageReply\"\x00\x42+\n\x10\x63om.CSTB.messageB\x0fHelloWorldProtoP\x01\xa2\x02\x03HLWb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19transactionProducer.proto\x12\x07message\"6\n\x12SendMessageRequest\x12\x0f\n\x07\x63hannel\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x1b\n\x0cMessageReply\x12\x0b\n\x03\x61\x63k\x18\x01 \x01(\t2N\n\x07Greeter\x12\x43\n\x0bSendMessage\x12\x1b.message.SendMessageRequest\x1a\x15.message.MessageReply\"\x00\x42+\n\x10\x63om.CSTB.messageB\x0fHelloWorldProtoP\x01\xa2\x02\x03HLWb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -23,9 +23,9 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\020com.CSTB.messageB\017HelloWorldProtoP\001\242\002\003HLW'
   _globals['_SENDMESSAGEREQUEST']._serialized_start=38
-  _globals['_SENDMESSAGEREQUEST']._serialized_end=72
-  _globals['_MESSAGEREPLY']._serialized_start=74
-  _globals['_MESSAGEREPLY']._serialized_end=105
-  _globals['_GREETER']._serialized_start=107
-  _globals['_GREETER']._serialized_end=185
+  _globals['_SENDMESSAGEREQUEST']._serialized_end=92
+  _globals['_MESSAGEREPLY']._serialized_start=94
+  _globals['_MESSAGEREPLY']._serialized_end=121
+  _globals['_GREETER']._serialized_start=123
+  _globals['_GREETER']._serialized_end=201
 # @@protoc_insertion_point(module_scope)

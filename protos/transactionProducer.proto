@@ -12,9 +12,10 @@ service Greeter {
 }
 
 message SendMessageRequest {
-  string name = 1;
+  string channel = 1;
+  string message = 2;
 }
 
 message MessageReply {
-  string message = 1;
+  string ack = 1;
 }
