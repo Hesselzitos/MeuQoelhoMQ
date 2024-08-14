@@ -42,7 +42,8 @@ class MeuCoelhoMQSender(transactionConsumer_pb2_grpc.ConsumerServicer):
             try: 
                 file = open(directoryDataMessages+channel+".txt", "w")
                 file.writelines(lines)
-                print("Message deleted")
+                queesRunning[channel]=queesRunning.get(channel)-1
+                print("Message deleted, now are "+str(queesRunning.get(channel)))
             finally:
                 file.close()
         return message
@@ -52,10 +53,11 @@ class MeuCoelhoMQSender(transactionConsumer_pb2_grpc.ConsumerServicer):
         channel=AskForSubscribe.channel
         subscribe=AskForSubscribe.consumerName
         print(f'The {subscribe} is trying to subscribe the {channel}')
-        if channel in queesRunning:
+        if channel in queesRunning and subscribe not in subscribedQuee:
             subscribedQuee[channel]=subscribe
             print(f'The channel {channel} have an new subscriber, {subscribe}')
-        return transactionConsumer_pb2.AskForSubscribeReplay(ack="ok")
+            return transactionConsumer_pb2.AskForSubscribeReplay(ack="ok")
+        return transactionConsumer_pb2.AskForSubscribeReplay(ack="Already sub")
 
 class MeuCoelhoMQReciver(transactionProducer_pb2_grpc.GreeterServicer):
 
@@ -89,6 +91,7 @@ class MeuCoelhoMQReciver(transactionProducer_pb2_grpc.GreeterServicer):
                 print("New quee added: "+channel)
             else:
                 file.write("\n"+message)
+                queesRunning[channel]=queesRunning.get(channel)+1
         finally:
             file.close()
 
