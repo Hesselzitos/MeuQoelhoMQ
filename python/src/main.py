@@ -29,7 +29,7 @@ class MeuCoelhoMQSender(transactionConsumer_pb2_grpc.ConsumerServicer):
         return transactionConsumer_pb2.AskForMessageReplay(ack="Not subscribed")
         
     def ReadAndDeleteMessage(self, channel):
-        print("Trying to consume a message")
+        print(f'There are {queesRunning.get(channel)} messages in the quee')
         message = "No Messages"
         if queesRunning.get(channel)>0:
             try:
@@ -85,7 +85,7 @@ class MeuCoelhoMQReciver(transactionProducer_pb2_grpc.GreeterServicer):
     def SaveMessage(self, channel ,message):
         try:
             file = open(directoryDataMessages+channel+".txt", "a")
-            if channel not in queesRunning:
+            if channel not in queesRunning or queesRunning.get(channel)==0:
                 file.write(message)
                 queesRunning[channel]=1
                 print("New quee added: "+channel)
