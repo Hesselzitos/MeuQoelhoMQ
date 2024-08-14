@@ -4,7 +4,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-from main import MeuCoelhoMQ
+from main import MeuCoelhoMQReciver,MeuCoelhoMQSender,queesRunning,subscribedQuee
 
 #prepering for test
 directoryTestDataMessages = '../src/dataMessages/'
@@ -30,32 +30,32 @@ def deleteFileTest(file):
 
 #start the tests
 def countMessagesTest():
-    meuCoelho = MeuCoelhoMQ()
+    meuCoelho = MeuCoelhoMQReciver()
     numeroLinhas = meuCoelho.CountMessages(directoryTestDataMessages+"testFile.txt")
     assert numeroLinhas == 11
     print("countMessagesTest=ok")
 
 def LoadAndListQueesTest():
-    meuCoelho = MeuCoelhoMQ()
+    meuCoelho = MeuCoelhoMQReciver()
     meuCoelho.LoadAndListQuees()
-    assert meuCoelho.queesRunning["testFile1"] == 8
-    assert meuCoelho.queesRunning["testFile2"] == 6
-    assert meuCoelho.queesRunning["testFile3"] == 13
+    assert queesRunning["testFile1"] == 8
+    assert queesRunning["testFile2"] == 6
+    assert queesRunning["testFile3"] == 13
     print("LoadAndListQueesTest=ok")
 
 def SaveMessageTest():
     channel = "Test"
     message = "SaveMessageTest"
-    meuCoelho = MeuCoelhoMQ()
+    meuCoelho = MeuCoelhoMQReciver()
     meuCoelho.SaveMessage(channel,message)
 
     try:
-        file = open(MeuCoelhoMQ.directoryDataMessages+channel+".txt","r")
+        file = open(directoryTestDataMessages+channel+".txt","r")
         messageRead = file.read()
     finally:
         file.close()
 
-    assert meuCoelho.queesRunning["Test"] == 1
+    assert queesRunning["Test"] == 1
     assert messageRead == message
     print("SaveMessageTest=ok")
 
@@ -64,21 +64,21 @@ def KillQueeTest():
     lines = 2
     generateFileTest(lines,channel+".txt")
 
-    meuCoelho = MeuCoelhoMQ()
-    meuCoelho.queesRunning[channel]=lines
+    meuCoelho = MeuCoelhoMQReciver()
+    queesRunning[channel]=lines
     meuCoelho.KillQuee(channel)
     print("KillQueeTest=ok")
 
-def SubscribeQueeTest():
-    meuCoelho = MeuCoelhoMQ()
-    quee = "SubscribeQueeTest"
-    meuCoelho.queesRunning[quee]=1
+def SubscribeTest():
+    meuCoelho = MeuCoelhoMQSender()
+    quee = "SubscribeTest"
+    queesRunning[quee]=1
 
-    assert quee not in meuCoelho.subscribedQuee
-    meuCoelho.SubscribeQuee(quee,"ConsumerTest")
-    assert quee in meuCoelho.subscribedQuee
-    assert meuCoelho.subscribedQuee[quee] == "ConsumerTest"
-    print("SubscribeQueeTest=ok")
+    assert quee not in subscribedQuee
+    meuCoelho.Subscribe(quee,"ConsumerTest")
+    assert quee in subscribedQuee
+    assert subscribedQuee[quee] == "ConsumerTest"
+    print("SubscribeTest=ok")
 
 #init all    
 if __name__ == "__main__":
@@ -95,7 +95,7 @@ if __name__ == "__main__":
         LoadAndListQueesTest()
         SaveMessageTest()
         KillQueeTest()
-        SubscribeQueeTest()
+        SubscribeTest()
     finally:
         deleteFileTest("testFile.txt")
         deleteFileTest("testFile1.txt")

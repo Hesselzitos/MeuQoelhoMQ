@@ -8,19 +8,33 @@ option objc_class_prefix = "HLW";
 package message;
 
 service Consumer {
-  rpc Subscribe (AskForSubscribe) returns (ConsumerMessage) {}
-  rpc ListQuees () returns (ListQueesReply) {}
+  rpc Subscribe (AskForSubscribe) returns (AskForSubscribeReplay) {}
+  rpc ListQuees (AskForQuees) returns (AskForQueesReplay) {}
+  rpc ConsumeMessage (AskForMessage) returns (AskForMessageReplay) {}
 }
 
 message AskForSubscribe {
   string channel = 1;
+  string consumerName = 2;
 }
 
-message ConsumerMessage {
+message AskForSubscribeReplay {
+  string ack = 1;
+}
+
+message AskForQuees {
+  string ask = 1;
+}
+
+message AskForQueesReplay {
+  repeated string listQuees = 1;
+}
+
+message AskForMessage {
   string channel = 1;
-  string message = 2;
+  string consumerName = 2;
 }
 
-message ListQueesReply {
-  string listQuees = 1;
+message AskForMessageReplay {
+  string ack = 1;
 }
