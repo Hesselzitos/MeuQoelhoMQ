@@ -1,10 +1,7 @@
-"""The Python implementation of the GRPC helloworld.Greeter server."""
-
 from concurrent import futures
 import logging
-import csv
-from io import StringIO
 import os
+
 import grpc
 import transactionProducer_pb2
 import transactionProducer_pb2_grpc
@@ -24,7 +21,32 @@ class MeuCoelhoMQSender(transactionConsumer_pb2_grpc.ConsumerServicer):
         return transactionConsumer_pb2.AskForQueesReplay(listQuees=listQuees)
 
     def ConsumeMessage(self, AskForMessage, context):
-        print("yes!")
+        channel=AskForMessage.channel
+        consumer=AskForMessage.consumerName
+        if subscribedQuee.get(channel)==consumer:
+            message = self.ReadAndDeleteMessage(channel)
+            return transactionConsumer_pb2.AskForMessageReplay(ack=message)
+        return transactionConsumer_pb2.AskForMessageReplay(ack="Not subscribed")
+        
+    def ReadAndDeleteMessage(self, channel):
+        print("Trying to consume a message")
+        message = "No Messages"
+        if queesRunning.get(channel)>0:
+            try:
+                file = open(directoryDataMessages+channel+".txt", "r")
+                lines = file.readlines()
+                message = lines[0]
+                lines = lines[1:]
+            finally:
+                file.close()
+            try: 
+                file = open(directoryDataMessages+channel+".txt", "w")
+                file.writelines(lines)
+                print("Message deleted")
+            finally:
+                file.close()
+        return message
+
 
     def Subscribe(self,AskForSubscribe, context):
         channel=AskForSubscribe.channel
